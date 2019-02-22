@@ -131,9 +131,18 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'password' => [
+            'min' => 'A senha precisa de no mínimo 6 caracteres',
+            'confirmed' => 'As senhas não coincidem',
+        ],
     ],
 
     /*
+     *
+     * [
+            'cpf' => 'CPF inválido',
+            'required' => 'O campo :attribute não pode ser vazio',
+        ]);
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
     |--------------------------------------------------------------------------

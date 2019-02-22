@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Permission;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,5 +25,10 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function teste(){
+        $teste= Permission::find(auth()->user()->id);
+        return dd($teste);
     }
 }

@@ -18,7 +18,6 @@ class CreateExtraInfosTable extends Migration
             $table->date('dateBirth');
             $table->string('rg',10);
             $table->string('issuingAgency',100);
-            $table->string('cpf', 11);
             $table->string('phone',11);
             $table->string('schooling',191);
             $table->string('skin',191);

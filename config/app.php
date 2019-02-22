@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        /*
+         * Laravel Validator pt-br
+         */
+        LaravelLegends\PtBrValidator\ValidatorProvider::class,
     ],
 
     /*
