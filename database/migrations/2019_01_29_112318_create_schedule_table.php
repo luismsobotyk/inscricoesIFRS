@@ -13,7 +13,7 @@ class CreateScheduleTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedule', function (Blueprint $table) {
+        Schema::create('agenda', function (Blueprint $table) {
             $table->string('dayWeek', 30);
             $table->time('startTime');
             $table->time('endTime');
@@ -30,6 +30,6 @@ class CreateScheduleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule');
+        Schema::dropIfExists('agenda');
     }
 }

@@ -19,4 +19,12 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/teste', 'HomeController@teste');
+
+//Rotas Para Adm
+Route::get('/aprovarDocumentos', 'AdmController@listarDocumentos');
+Route::get('/cursosAdm', 'AdmController@listarCursos');
+Route::get('/listaUsuarios', 'AdmController@listarUsuarios');
+Route::get('/dashboards', 'AdmController@mostrarDashboards');
+Route::get('/cadastroCurso', 'AdmController@redirecionaCadastroCurso');
+Route::get('/cursosAdm/{id}', 'AdmController@mostraCurso');
+Route::post('cadastrarCurso', 'AdmController@cadastraCurso');

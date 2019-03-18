@@ -19,6 +19,11 @@ class CreateCoursesTable extends Migration
             $table->string('description', 500);
             $table->integer('vacancies');
             $table->float('workload');
+            $table->date('startSubscription');
+            $table->date('endSubscription');
+            $table->date('startCourse');
+            $table->date('endCourse');
+            $table->string('situation', 50)->default('Fechado');
             $table->timestamps();
         });
     }
