@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\agenda;
 use App\Http\Requests\CourseRequest;
+use App\subscription;
 use Request;
 use App\Course;
 
@@ -97,8 +98,21 @@ class AdmController extends Controller
 
     }
 
-    public function mostraCurso(){
-        return view('adm.mostraCurso');
+    public function deletaCurso($id){
+        agenda::where('course_id', $id)->delete();
+        Course::find($id)->delete();
+        return redirect()->action('AdmController@listarCursos');
+    }
+
+    public function mostraCurso($id){
+        $agenda= agenda::where('course_id', $id)->get();
+        $curso= Course::find($id);
+
+        return view('adm.mostraCurso')
+            ->with('curso', $curso)
+            ->with('agenda', $agenda)
+            ->with('numInscritos', subscription::where('course_id', $id)->count())
+            ->with('ultInscritos', subscription::where('course_id', $id)->limit(3)->orderByRaw('created_at DESC'));
     }
 
 }

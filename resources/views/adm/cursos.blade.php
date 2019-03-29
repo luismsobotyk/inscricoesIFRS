@@ -22,7 +22,7 @@
                             <td>{{ $c->name }}</td>
                             <td>{{ $c->vacancies }} vagas</td>
                             <td>{{ $c->situation }}</td>
-                            <td><i class="fas fa-trash-alt"></i></td>
+                            <td><a href="javascript:confirmaDelete( {{$c->id}}, '{{$c->name}}' )"><i class="fas fa-trash-alt"></i></a></td>
                             <td><a href="/cursosAdm/{{$c->id}}"><i class="fas fa-search-plus"></i></a></td>
                         </tr>
                     @endforeach
@@ -32,4 +32,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmaDelete(id, nomeCurso){
+            var response= confirm("Deseja mesmo excluir o curso "+nomeCurso+"?");
+            if(response == true){
+                window.location= "/deletaCurso/"+id;
+            }else{
+                //Nothing Happens
+            }
+        }
+    </script>
 @endsection

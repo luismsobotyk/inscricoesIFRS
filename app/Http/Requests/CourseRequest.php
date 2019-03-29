@@ -35,40 +35,41 @@ class CourseRequest extends FormRequest
             'dayWeek' => 'required'
         ];
 
-        for($i=0; $i<count($this->dayWeek); $i++){
-            if($this->dayWeek[$i]=='domingo'){
-                $rules['inicioDomingo']= 'required|date_format:H:i';
-                $rules['fimDomingo']= 'required|date_format:H:i|after:inicioDomingo';
-            }else if($this->dayWeek[$i]=='segunda-feira'){
-                $rules['inicioSegunda']= 'required|date_format:H:i';
-                $rules['fimSegunda']= 'required|date_format:H:i|after:inicioSegunda';
-            }else if($this->dayWeek[$i]=='terca-feira'){
-                $rules['inicioTerca']= 'required|date_format:H:i';
-                $rules['fimTerca']= 'required|date_format:H:i|after:inicioTerca';
-            }else if($this->dayWeek[$i]=='quarta-feira'){
-                $rules['inicioQuarta']= 'required|date_format:H:i';
-                $rules['fimQuarta']= 'required|date_format:H:i|after:inicioQuarta';
-            }else if($this->dayWeek[$i]=='quinta-feira'){
-                $rules['inicioQuinta']= 'required|date_format:H:i';
-                $rules['fimQuinta']= 'required|date_format:H:i|after:inicioQuinta';
-            }else if($this->dayWeek[$i]=='sexta-feira'){
-                $rules['inicioSexta']= 'required|date_format:H:i';
-                $rules['fimSexta']= 'required|date_format:H:i|after:inicioSexta';
-            }else if($this->dayWeek[$i]=='sabado'){
-                $rules['inicioSabado']= 'required|date_format:H:i';
-                $rules['fimSabado']= 'required|date_format:H:i|after:inicioSabado';
-            }else{
-                echo "ERRO";
+        if (is_array($this->dayWeek)) {
+            for ($i = 0; $i < count($this->dayWeek); $i++) {
+                if ($this->dayWeek[$i] == 'domingo') {
+                    $rules['inicioDomingo'] = 'required|date_format:H:i';
+                    $rules['fimDomingo'] = 'required|date_format:H:i|after:inicioDomingo';
+                } else if ($this->dayWeek[$i] == 'segunda-feira') {
+                    $rules['inicioSegunda'] = 'required|date_format:H:i';
+                    $rules['fimSegunda'] = 'required|date_format:H:i|after:inicioSegunda';
+                } else if ($this->dayWeek[$i] == 'terca-feira') {
+                    $rules['inicioTerca'] = 'required|date_format:H:i';
+                    $rules['fimTerca'] = 'required|date_format:H:i|after:inicioTerca';
+                } else if ($this->dayWeek[$i] == 'quarta-feira') {
+                    $rules['inicioQuarta'] = 'required|date_format:H:i';
+                    $rules['fimQuarta'] = 'required|date_format:H:i|after:inicioQuarta';
+                } else if ($this->dayWeek[$i] == 'quinta-feira') {
+                    $rules['inicioQuinta'] = 'required|date_format:H:i';
+                    $rules['fimQuinta'] = 'required|date_format:H:i|after:inicioQuinta';
+                } else if ($this->dayWeek[$i] == 'sexta-feira') {
+                    $rules['inicioSexta'] = 'required|date_format:H:i';
+                    $rules['fimSexta'] = 'required|date_format:H:i|after:inicioSexta';
+                } else if ($this->dayWeek[$i] == 'sabado') {
+                    $rules['inicioSabado'] = 'required|date_format:H:i';
+                    $rules['fimSabado'] = 'required|date_format:H:i|after:inicioSabado';
+                } else {
+                    echo "ERRO";
+                }
             }
         }
-
-
 
         return $rules;
     }
 
-    public function messages(){
-        return[
+    public function messages()
+    {
+        return [
             'name.required' => "O nome do curso é obrigatório.",
 
             'description.required' => "A descrição do curso é obrigatória.",

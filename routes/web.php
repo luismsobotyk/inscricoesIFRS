@@ -27,4 +27,5 @@ Route::get('/listaUsuarios', 'AdmController@listarUsuarios');
 Route::get('/dashboards', 'AdmController@mostrarDashboards');
 Route::get('/cadastroCurso', 'AdmController@redirecionaCadastroCurso');
 Route::get('/cursosAdm/{id}', 'AdmController@mostraCurso');
+Route::get('/deletaCurso/{id}', 'AdmController@deletaCurso');
 Route::post('cadastrarCurso', 'AdmController@cadastraCurso');
