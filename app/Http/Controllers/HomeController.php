@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Login_log;
 use App\Permission;
 use Illuminate\Http\Request;
 
@@ -27,8 +29,13 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function teste(){
-        $teste= Permission::find(auth()->user()->id);
-        return dd($teste);
+    public function updateLoginLogTable(){
+        $loginLog= new Login_log();
+        $loginLog->user_id= auth()->user()->id;
+        $loginLog->ipAdress= request()->ip();
+        $loginLog->save();
+        return redirect()->action('HomeController@index');
+        //$teste= Permission::find(auth()->user()->id);
+        //return dd();
     }
 }

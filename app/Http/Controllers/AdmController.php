@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\agenda;
 use App\Http\Requests\CourseRequest;
 use App\subscription;
+use App\User;
 use Request;
 use App\Course;
 
@@ -20,7 +21,15 @@ class AdmController extends Controller
     }
 
     public function listarUsuarios(){
-        return view('adm.listaUsers');
+        return view('adm.listaUsers')->with('usuarios', User::select('name', 'email', 'id')->orderBy('name')->get());
+    }
+
+    public function verUsuario($id){
+        return view('adm.user');
+    }
+
+    public function redirecionaEdicaoPermissao($id){
+        return view('adm.edicaoPermissao');
     }
 
     public function mostrarDashboards(){
