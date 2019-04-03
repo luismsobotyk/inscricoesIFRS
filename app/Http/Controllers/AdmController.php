@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\agenda;
+use App\extra_info;
 use App\Http\Requests\CourseRequest;
+use App\Login_log;
+use App\Permission;
 use App\subscription;
 use App\User;
 use Request;
@@ -25,7 +28,18 @@ class AdmController extends Controller
     }
 
     public function verUsuario($id){
-        return view('adm.user');
+        $user= User::select('name', 'email', 'created_at')->where('id', $id)->first();
+        $lastLogin= Login_log::select('created_at')->where('user_id', $id)->orderBy('created_at', 'DESC')->first();
+        $numCursos= subscription::where('user_id', $id)->count();
+        $extraInfos= extra_info::select('dateBirth', 'phone')->where('user_id', $id)->first();
+        $permissions= Permission::where('user_id', $id)->first();
+        return view('adm.user')
+            ->with('user', $user)
+            ->with('id', $id)
+            ->with('lastLogin', $lastLogin)
+            ->with('numCursos', $numCursos)
+            ->with('extraInfos', $extraInfos)
+            ->with('permissions', $permissions);
     }
 
     public function redirecionaEdicaoPermissao($id){
