@@ -42,8 +42,32 @@ class AdmController extends Controller
             ->with('permissions', $permissions);
     }
 
-    public function redirecionaEdicaoPermissao($id){
-        return view('adm.edicaoPermissao');
+    public function redirecionaEdicaoPermissao($id, $sucess= false){
+        $user= User::select('id', 'name', 'email')->where('id', $id)->first();
+        $permissions= Permission::find($id);
+        //dd($_SESSION);
+        return view('adm.edicaoPermissao')->with('user', $user)->with('permissions', $permissions);
+    }
+
+    public function atualizaPermissao(){
+        $params= Request::all();
+        if(Permission::find($params['user_id'])){
+            $permissao= Permission::find($params['user_id']);
+        }else{
+            $permissao= new Permission();
+            $permissao->user_id= $params['user_id'];
+        }
+        $permissao->registerCourse = $params['registerCourse'];
+        $permissao->approveDocuments = $params['approveDocuments'];
+        $permissao->viewDashboards = $params['viewDashboards'];
+        $permissao->subscriptionCourse= $params['subscriptionCourse'];
+        $permissao->editPermissions = $params['editPermissions'];
+
+        $permissao->save();
+
+        return redirect()->back()->with('sucess', ['true']);
+        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
+        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
     }
 
     public function mostrarDashboards(){

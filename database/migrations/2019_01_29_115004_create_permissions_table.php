@@ -18,9 +18,6 @@ class CreatePermissionsTable extends Migration
             $table->boolean('approveDocuments')->default(0);
             $table->boolean('viewDashboards')->default(0);
             $table->boolean('subscriptionCourse')->default(0);
-            $table->boolean('editOwnInfos')->default(0);
-            $table->boolean('editOtherInfos')->default(0);
-            $table->boolean('deleteUser')->default(0);
             $table->boolean('editPermissions')->default(0);
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

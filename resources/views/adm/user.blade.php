@@ -9,7 +9,8 @@
                     <img src="https://s3.amazonaws.com/iknow_images/large_v1/1036548_large_v1_a9bc3ce83ca3e401c4d3691b5042c142.jpeg"
                          class="border rounded-circle shadow mb-5 bg-white rounded">
                 </div>
-                <div class="row mx-auto justify-content-center" style="width: 400px; margin-top: -20px; padding-bottom:20px;">
+                <div class="row mx-auto justify-content-center"
+                     style="width: 400px; margin-top: -20px; padding-bottom:20px;">
                     <legend style="text-align: center">{{$user->name}}</legend>
                     <h6 style="margin-top: -10px; margin-left: 2px;">{{$user->email}}</h6>
                 </div>
@@ -53,6 +54,9 @@
                     <legend>Permissões:</legend>
 
                     <ul class="list-group" style="width: 100%">
+                        @if(!isset($permissions))
+                            <li class="list-group-item list-group-item-danger text-center">Permissões do Usuário não encontradas. <strong>Contate a Equipe de TI</strong>.</li>
+                        @else
                         @if($permissions->registerCourse)
                             <li class="list-group-item">Cadastrar Um Curso</li>
                         @endif
@@ -68,10 +72,10 @@
                         @if($permissions->editPermissions)
                             <li class="list-group-item">Editar Permissões</li>
                         @endif
-                        @if(!isset($permissions))
-
                         @endif
-                        <a href="/editPermissions/{{$id}}"><button type="button" class="btn btn-dark" style="width: 100%">Alterar Permissões</button></a>
+                        <a href="/editPermissions/{{$id}}">
+                            <button type="button" class="btn btn-dark" style="width: 100%">Alterar Permissões</button>
+                        </a>
                     </ul>
                 </div>
             </div>
