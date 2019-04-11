@@ -14,68 +14,26 @@ use App\Course;
 
 class AdmController extends Controller
 {
-    public function listarDocumentos(){
-        return view('adm.aprovaDocumentos');
+    public function __construct()
+    {
+        $this->middleware('AdmMiddleware');
+        $this->middleware('registerCourse', ['only' => ['listarCursos', 'mostraCurso', 'cadastraCurso', 'deletaCurso', 'redirecionaCadastroCurso']]);
+        $this->middleware('approveDocuments', ['only' => ['listarDocumentos']]);
+        $this->middleware('viewDashboards', ['only' => ['mostrarDashboards']]);
+        $this->middleware('editPermissions', ['only' => ['listarUsuarios', 'verUsuario', 'redirecionaEdicaoPermissao', 'atualizaPermissao']]);
     }
+
+    /*
+     *
+     *
+     * Métodos referentes aos cursos *
+     *
+     *
+     */
 
     public function listarCursos(){
         $cursos = Course::all();
         return view('adm.cursos')->with('cursos', $cursos);
-    }
-
-    public function listarUsuarios(){
-        return view('adm.listaUsers')->with('usuarios', User::select('name', 'email', 'id')->orderBy('name')->get());
-    }
-
-    public function verUsuario($id){
-        $user= User::select('name', 'email', 'created_at')->where('id', $id)->first();
-        $lastLogin= Login_log::select('created_at')->where('user_id', $id)->orderBy('created_at', 'DESC')->first();
-        $numCursos= subscription::where('user_id', $id)->count();
-        $extraInfos= extra_info::select('dateBirth', 'phone')->where('user_id', $id)->first();
-        $permissions= Permission::where('user_id', $id)->first();
-        return view('adm.user')
-            ->with('user', $user)
-            ->with('id', $id)
-            ->with('lastLogin', $lastLogin)
-            ->with('numCursos', $numCursos)
-            ->with('extraInfos', $extraInfos)
-            ->with('permissions', $permissions);
-    }
-
-    public function redirecionaEdicaoPermissao($id, $sucess= false){
-        $user= User::select('id', 'name', 'email')->where('id', $id)->first();
-        $permissions= Permission::find($id);
-        //dd($_SESSION);
-        return view('adm.edicaoPermissao')->with('user', $user)->with('permissions', $permissions);
-    }
-
-    public function atualizaPermissao(){
-        $params= Request::all();
-        if(Permission::find($params['user_id'])){
-            $permissao= Permission::find($params['user_id']);
-        }else{
-            $permissao= new Permission();
-            $permissao->user_id= $params['user_id'];
-        }
-        $permissao->registerCourse = $params['registerCourse'];
-        $permissao->approveDocuments = $params['approveDocuments'];
-        $permissao->viewDashboards = $params['viewDashboards'];
-        $permissao->subscriptionCourse= $params['subscriptionCourse'];
-        $permissao->editPermissions = $params['editPermissions'];
-
-        $permissao->save();
-
-        return redirect()->back()->with('sucess', ['true']);
-        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
-        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
-    }
-
-    public function mostrarDashboards(){
-        return view('adm.dashboards');
-    }
-
-    public function redirecionaCadastroCurso(){
-        return view('adm.cadastroCurso');
     }
 
     public function cadastraCurso(CourseRequest $request){
@@ -97,7 +55,7 @@ class AdmController extends Controller
                     'startTime' => $params['inicioSegunda'],
                     'endTime' => $params['fimSegunda'],
                     'course_id' => $course->id
-                    ]);
+                ]);
             }
             else if($day=='terca-feira'){
                 agenda::create([
@@ -160,6 +118,89 @@ class AdmController extends Controller
             ->with('agenda', $agenda)
             ->with('numInscritos', subscription::where('course_id', $id)->count())
             ->with('ultInscritos', subscription::where('course_id', $id)->limit(3)->orderByRaw('created_at DESC'));
+    }
+
+    public function redirecionaCadastroCurso(){
+        return view('adm.cadastroCurso');
+    }
+
+    /*
+     *
+     *
+     * Métodos referentes aos documentos *
+     *
+     *
+     */
+
+    public function listarDocumentos(){
+        return view('adm.aprovaDocumentos');
+    }
+
+    /*
+     *
+     *
+     * Métodos referentes aos usuarios *
+     *
+     *
+     */
+
+    public function listarUsuarios(){
+        return view('adm.listaUsers')->with('usuarios', User::select('name', 'email', 'id')->orderBy('name')->get());
+    }
+
+    public function verUsuario($id){
+        $user= User::select('name', 'email', 'created_at')->where('id', $id)->first();
+        $lastLogin= Login_log::select('created_at')->where('user_id', $id)->orderBy('created_at', 'DESC')->first();
+        $numCursos= subscription::where('user_id', $id)->count();
+        $extraInfos= extra_info::select('dateBirth', 'phone')->where('user_id', $id)->first();
+        $permissions= Permission::where('user_id', $id)->first();
+        return view('adm.user')
+            ->with('user', $user)
+            ->with('id', $id)
+            ->with('lastLogin', $lastLogin)
+            ->with('numCursos', $numCursos)
+            ->with('extraInfos', $extraInfos)
+            ->with('permissions', $permissions);
+    }
+
+    public function redirecionaEdicaoPermissao($id, $sucess= false){
+        $user= User::select('id', 'name', 'email')->where('id', $id)->first();
+        $permissions= Permission::find($id);
+        //dd($_SESSION);
+        return view('adm.edicaoPermissao')->with('user', $user)->with('permissions', $permissions);
+    }
+
+    public function atualizaPermissao(){
+        $params= Request::all();
+        if(Permission::find($params['user_id'])){
+            $permissao= Permission::find($params['user_id']);
+        }else{
+            $permissao= new Permission();
+            $permissao->user_id= $params['user_id'];
+        }
+        $permissao->registerCourse = $params['registerCourse'];
+        $permissao->approveDocuments = $params['approveDocuments'];
+        $permissao->viewDashboards = $params['viewDashboards'];
+        $permissao->subscriptionCourse= $params['subscriptionCourse'];
+        $permissao->editPermissions = $params['editPermissions'];
+
+        $permissao->save();
+
+        return redirect()->back()->with('sucess', ['true']);
+        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
+        //return redirect()->route('mostraPermissoes', ['id' => $params['user_id'], 'sucess' => 'true']);
+    }
+
+    /*
+     *
+     *
+     * Métodos referentes aos dashboards *
+     *
+     *
+     */
+
+    public function mostrarDashboards(){
+        return view('adm.dashboards');
     }
 
 }
