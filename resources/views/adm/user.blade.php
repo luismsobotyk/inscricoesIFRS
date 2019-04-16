@@ -31,8 +31,8 @@
                     <br/>
                     Data de Nascimento:
 
-                    @if(isset($extraInfos->dateBirth))
-                        {{$extraInfos->dateBirth}}
+                    @if(isset($user->dateBirth))
+                        {{$user->dateBirth}}
                     @else
                         Não Informado
                     @endif

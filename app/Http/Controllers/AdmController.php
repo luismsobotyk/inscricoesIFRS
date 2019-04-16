@@ -149,10 +149,10 @@ class AdmController extends Controller
     }
 
     public function verUsuario($id){
-        $user= User::select('name', 'email', 'created_at')->where('id', $id)->first();
+        $user= User::select('name', 'email', 'created_at', 'dateBirth')->where('id', $id)->first();
         $lastLogin= Login_log::select('created_at')->where('user_id', $id)->orderBy('created_at', 'DESC')->first();
         $numCursos= subscription::where('user_id', $id)->count();
-        $extraInfos= extra_info::select('dateBirth', 'phone')->where('user_id', $id)->first();
+        $extraInfos= extra_info::select('phone')->where('user_id', $id)->first();
         $permissions= Permission::where('user_id', $id)->first();
         return view('adm.user')
             ->with('user', $user)

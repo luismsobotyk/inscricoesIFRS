@@ -35,3 +35,6 @@ Route::get('/cursosAdm/{id}', 'AdmController@mostraCurso');
 Route::get('/deletaCurso/{id}', 'AdmController@deletaCurso');
 Route::post('/cadastrarCurso', 'AdmController@cadastraCurso');
 Route::post('/atualizaPermissao', 'AdmController@atualizaPermissao');
+
+//Rotas para Qualquer Usuário
+Route::get('/user/editInfos', 'CommonUserController@redirecionaEdicaoExtraInfos');

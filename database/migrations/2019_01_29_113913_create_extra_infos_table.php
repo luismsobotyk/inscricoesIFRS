@@ -15,7 +15,6 @@ class CreateExtraInfosTable extends Migration
     {
         Schema::create('extra_infos', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('dateBirth');
             $table->string('rg',10);
             $table->string('issuingAgency',100);
             $table->string('phone',11);
