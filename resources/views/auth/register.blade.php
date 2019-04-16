@@ -40,6 +40,21 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="dateBirth" class="col-md-4 col-form-label text-md-right">Data de nascimento</label>
+
+                            <div class="col-md-6">
+                                <input id="dateBirth" type="date" class="form-control{{ $errors->has('dateBirthl') ? ' is-invalid' : '' }}" name="dateBirth" value="{{ old('dateBirth') }}" placeholder="dd/mm/aaaa" required>
+
+                                @if ($errors->has('dateBirth'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('dateBirth') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label for="cpf" class="col-md-4 col-form-label text-md-right">{{ __('CPF') }}</label>
 
                             <div class="col-md-6">

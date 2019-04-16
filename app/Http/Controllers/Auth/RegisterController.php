@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'cpf' => ['required', 'string', 'cpf', 'unique:users'],
+            'dateBirth' => ['required', 'date']
         ],
         [
             'cpf' => 'CPF Inválido',
@@ -71,6 +72,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'cpf' => $data['cpf'],
+            'dateBirth' => $data['dateBirth'],
             'password' => Hash::make($data['password']),
         ]);
     }
